@@ -1,0 +1,22 @@
+# Render "Blueprint" - lässt Render den Dienst automatisch nach dieser
+# Vorlage anlegen (New + → Blueprint → dieses Repo auswählen), statt jede
+# Einstellung von Hand im Dashboard zu klicken.
+services:
+  - type: web
+    name: bautraeger-crawler
+    env: docker
+    plan: starter
+    autoDeploy: true
+    disk:
+      name: bautraeger-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: PORTAL_PASSWORT
+        sync: false
+      - key: FLASK_SECRET_KEY
+        sync: false
+      - key: DATEN_ORDNER
+        value: /var/data

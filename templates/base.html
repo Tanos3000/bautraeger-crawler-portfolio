@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Bauträger Crawler{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Bauträger Crawler – Phoenix Living</h1>
+        <div class="rechts">
+            <button id="crawl-knopf" onclick="crawlStarten()">Jetzt crawlen</button>
+            <a class="logout" href="{{ url_for('logout') }}">Abmelden</a>
+        </div>
+    </header>
+    <main>
+        <div id="status-bereich"></div>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        const knopf = document.getElementById('crawl-knopf');
+        const statusBereich = document.getElementById('status-bereich');
+        let ueberwachungAktiv = false;
+
+        async function crawlStarten() {
+            const antwort = await fetch('/crawl', { method: 'POST' });
+            const daten = await antwort.json();
+            if (!daten.gestartet) {
+                statusBereich.textContent = daten.info || 'Konnte nicht gestartet werden.';
+                return;
+            }
+            statusUeberwachen();
+        }
+
+        function statusUeberwachen() {
+            if (ueberwachungAktiv) return;
+            ueberwachungAktiv = true;
+            knopf.disabled = true;
+            const intervall = setInterval(async () => {
+                const antwort = await fetch('/status');
+                const daten = await antwort.json();
+
+                if (daten.laeuft && daten.aktuell) {
+                    statusBereich.className = 'laeuft';
+                    statusBereich.textContent =
+                        `Läuft: ${daten.aktuell.index}/${daten.aktuell.gesamt} – ${daten.aktuell.name} (${daten.aktuell.status})`;
+                } else if (!daten.laeuft) {
+                    clearInterval(intervall);
+                    ueberwachungAktiv = false;
+                    knopf.disabled = false;
+                    statusBereich.className = '';
+                    statusBereich.textContent = 'Fertig! Aktualisiere Ansicht …';
+                    setTimeout(() => location.reload(), 1200);
+                }
+            }, 2000);
+        }
+
+        function tabelleFiltern(inputElement, tabelleId) {
+            const suchwort = inputElement.value.toLowerCase();
+            const zeilen = document.querySelectorAll(`#${tabelleId} tbody tr`);
+            zeilen.forEach(zeile => {
+                zeile.style.display = zeile.textContent.toLowerCase().includes(suchwort) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

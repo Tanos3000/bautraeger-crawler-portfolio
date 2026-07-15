@@ -1,0 +1,17 @@
+# Geheimnisse – NIEMALS hochladen
+.env
+
+# Virtuelle Umgebung – zu groß, jeder baut sie selbst
+venv/
+
+# Automatisch erzeugte Daten
+data/*.db
+data/*.xlsx
+data/*.log
+
+# Python-Müll
+__pycache__/
+*.pyc
+
+# macOS-Systemdatei
+.DS_Store

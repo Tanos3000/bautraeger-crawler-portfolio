@@ -1,0 +1,30 @@
+# requirements.txt
+# Alle Bibliotheken, die dieses Projekt benötigt.
+# Installation mit: pip install -r requirements.txt
+
+# HTTP-Anfragen (Webseiten herunterladen)
+requests==2.32.3
+
+# HTML parsen (Daten aus Webseiten lesen)
+beautifulsoup4==4.12.3
+
+# JavaScript-Seiten laden (für moderne Webseiten, die requests nicht laden kann)
+playwright==1.44.0
+
+# Anthropic Claude API (KI-gestützte Datenextraktion)
+anthropic==0.116.0
+
+# Excel-Dateien erstellen und formatieren
+openpyxl==3.1.4
+
+# API-Keys sicher aus .env-Datei laden
+python-dotenv==1.0.1
+
+# HTML-Parsing-Hilfsbibliothek (wird von beautifulsoup4 verwendet)
+lxml==5.2.2
+
+# Web-Framework für die Browser-Oberfläche
+flask==3.0.3
+
+# Produktions-Server für die Web-UI beim Hosting (statt Flasks Entwicklungsserver)
+gunicorn==22.0.0

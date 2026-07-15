@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anmelden – Bauträger Crawler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-seite">
+        <form class="login-box" method="post">
+            <h1>Bauträger Crawler<br>Phoenix Living</h1>
+            {% if fehler %}<div class="fehler">{{ fehler }}</div>{% endif %}
+            <input type="password" name="passwort" placeholder="Passwort" autofocus required>
+            <button type="submit">Anmelden</button>
+        </form>
+    </div>
+</body>
+</html>

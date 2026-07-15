@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – Bauträger Crawler{% endblock %}
+
+{% macro status_badge(status) %}
+    {% if status and ('verkauft' in status.lower() or 'vermietet' in status.lower()) %}
+        <span class="badge verkauft">{{ status }}</span>
+    {% elif status and ('verfügbar' in status.lower() or 'verkauf' in status.lower() or 'neubau' in status.lower()) %}
+        <span class="badge verfuegbar">{{ status }}</span>
+    {% else %}
+        <span class="badge unbekannt">{{ status or "unbekannt" }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+
+<div class="karte">
+    <h2>Übersicht ({{ projekte|length }} Projekte)</h2>
+    <input class="filter" type="text" placeholder="Bauträger oder Projekt suchen …"
+           oninput="tabelleFiltern(this, 'tabelle-uebersicht')">
+    {% if projekte %}
+    <table id="tabelle-uebersicht">
+        <thead>
+            <tr><th>Bauträger</th><th>Projekt</th><th>Adresse</th><th>Einheiten</th><th>Preis von</th><th>Preis bis</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for p in projekte %}
+            <tr>
+                <td>{{ p.bautraeger }}</td>
+                <td>{{ p.projekt }}</td>
+                <td>{{ p.adresse or "–" }}</td>
+                <td>{{ p.einheiten or "–" }}</td>
+                <td>{{ "%.0f"|format(p.preis_von) + " €" if p.preis_von else "–" }}</td>
+                <td>{{ "%.0f"|format(p.preis_bis) + " €" if p.preis_bis else "–" }}</td>
+                <td>{{ status_badge(p.status) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="leer">Noch keine Projekte gefunden. Klicke oben auf "Jetzt crawlen".</p>
+    {% endif %}
+</div>
+
+<div class="karte">
+    <h2>Einheiten ({{ einheiten|length }})</h2>
+    <input class="filter" type="text" placeholder="Projekt suchen …"
+           oninput="tabelleFiltern(this, 'tabelle-einheiten')">
+    {% if einheiten %}
+    <table id="tabelle-einheiten">
+        <thead>
+            <tr><th>Projekt</th><th>Zimmer</th><th>Fläche m²</th><th>Preis</th><th>Preis/m²</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for e in einheiten %}
+            <tr>
+                <td>{{ e.projekt }}</td>
+                <td>{{ e.zimmer or "–" }}</td>
+                <td>{{ e.flaeche_m2 or "–" }}</td>
+                <td>{{ "%.0f"|format(e.preis) + " €" if e.preis else "–" }}</td>
+                <td>{{ "%.0f"|format(e.preis_pro_m2) + " €" if e.preis_pro_m2 else "–" }}</td>
+                <td>{{ status_badge(e.status) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="leer">Noch keine Einheiten erfasst.</p>
+    {% endif %}
+</div>
+
+<div class="karte">
+    <h2>Änderungen ({{ aenderungen|length }})</h2>
+    <input class="filter" type="text" placeholder="Projekt suchen …"
+           oninput="tabelleFiltern(this, 'tabelle-aenderungen')">
+    {% if aenderungen %}
+    <table id="tabelle-aenderungen">
+        <thead>
+            <tr><th>Datum</th><th>Projekt</th><th>Feld</th><th>Alter Wert</th><th>Neuer Wert</th></tr>
+        </thead>
+        <tbody>
+            {% for a in aenderungen %}
+            <tr>
+                <td>{{ a.datum }}</td>
+                <td>{{ a.projekt }}</td>
+                <td>{{ a.feld }}</td>
+                <td>{{ a.alter_wert or "–" }}</td>
+                <td>{{ a.neuer_wert or "–" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="leer">Noch keine Änderungen protokolliert – die entstehen erst beim zweiten Crawl-Lauf.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

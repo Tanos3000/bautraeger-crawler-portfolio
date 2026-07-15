@@ -1,0 +1,185 @@
+:root {
+    --blau: #1f4e78;
+    --blau-hell: #eaf1f8;
+    --gruen: #2e7d32;
+    --gruen-hell: #dff2df;
+    --rot: #b3261e;
+    --rot-hell: #fbe4e2;
+    --grau: #6b6b6b;
+    --grau-hell: #ececec;
+    --text: #222;
+    --rand: #dcdcdc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f7f8fa;
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+}
+
+.login-seite {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-box {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+
+.login-box h1 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: var(--blau);
+}
+
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 1rem;
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.fehler {
+    color: var(--rot);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+button, .knopf {
+    background: var(--blau);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+button:hover, .knopf:hover { background: #163a58; }
+button:disabled { background: #9aa9b5; cursor: not-allowed; }
+
+header {
+    background: white;
+    border-bottom: 1px solid var(--rand);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+header h1 {
+    font-size: 1.3rem;
+    color: var(--blau);
+    margin: 0;
+}
+
+header .rechts {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+a.logout {
+    color: var(--grau);
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+#status-bereich {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--grau);
+}
+
+#status-bereich.laeuft { color: var(--blau); font-weight: 600; }
+
+.karte {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.karte h2 {
+    font-size: 1.1rem;
+    color: var(--blau);
+    margin-top: 0;
+}
+
+input.filter {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.92rem;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--rand);
+    white-space: nowrap;
+}
+
+th {
+    background: var(--blau-hell);
+    color: var(--blau);
+    position: sticky;
+    top: 0;
+}
+
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge.verfuegbar { background: var(--gruen-hell); color: var(--gruen); }
+.badge.verkauft { background: var(--rot-hell); color: var(--rot); }
+.badge.unbekannt { background: var(--grau-hell); color: var(--grau); }
+
+.leer {
+    color: var(--grau);
+    font-style: italic;
+}
+
+@media (max-width: 640px) {
+    header { padding: 1rem; }
+    main { padding: 0 1rem; }
+}
