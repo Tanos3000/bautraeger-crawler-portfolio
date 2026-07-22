@@ -1,13 +1,23 @@
 # Bauträger Crawler – Wettbewerbsanalyse-Tool
 
+**Live-Demo:** <!-- TODO(Lennard): Live-URL nach Render-Deployment hier eintragen, siehe DEPLOY.md --> _(noch nicht deployt)_
+
 Ein automatisierter Crawler für die Immobilienbranche: durchsucht Websites von
 Bauträgern, extrahiert Neubauprojekte und Wohneinheiten mit KI-Unterstützung
 (Claude API) und macht Veränderungen im Zeitverlauf sichtbar – als Excel-Export
 und als passwortgeschütztes Web-Dashboard.
 
+![Web-Dashboard](assets/dashboard.png)
+<!-- TODO(Lennard): Screenshot des Web-Dashboards in assets/dashboard.png ablegen -->
+
 **Entstanden als Praxisprojekt für die Wettbewerbsanalyse bei Phoenix Living
 GmbH Stuttgart.** Die in diesem Repository enthaltenen Bauträger-Daten sind
 zu Demonstrationszwecken durch fiktive Platzhalter ersetzt.
+
+*Hinweis zur Commit-Historie: Dies ist ein bereinigter Export aus einem
+privaten Projekt-Repo (Daten für die Portfolio-Version anonymisiert), daher
+nur ein Commit hier. Die eigentliche Entwicklungshistorie liegt im privaten
+Repo.*
 
 ---
 
@@ -78,7 +88,22 @@ Die Liste der zu crawlenden Bauträger steht in `bautraeger.csv` (Format:
 
 Das Projekt ist container-fertig (`Dockerfile`, `render.yaml`) für ein
 Deployment auf Render o.ä., inklusive persistentem Speicher für die
-SQLite-Datenbank.
+SQLite-Datenbank. Schritt-für-Schritt-Anleitung: [DEPLOY.md](DEPLOY.md).
+
+## Was ich gelernt habe
+
+Die konkreteste technische Entscheidung war das zweistufige Laden in
+`crawler.py`: erst ein einfacher `requests.get()`, und nur wenn die Antwort
+zu kurz aussieht, um echter Inhalt zu sein (unter 500 Zeichen, meist ein
+leeres JavaScript-Gerüst), der Fallback auf einen vollständigen
+Playwright-Browser. Die meisten Bauträger-Seiten brauchen den teuren
+Browser-Fallback gar nicht, dadurch bleibt der Crawler auf den einfachen
+Seiten schnell und auf den JS-lastigen trotzdem korrekt. Auch die
+Claude-API-Extraktion brauchte mehr Absicherung als erwartet: das Modell
+verpackt seine JSON-Antwort gelegentlich in Markdown-Codeblöcke, obwohl der
+Prompt das ausdrücklich verbietet – der Code entfernt diese vor dem Parsen
+und fällt bei weiterhin ungültigem JSON auf eine leere Liste zurück, statt
+abzustürzen.
 
 ---
 
