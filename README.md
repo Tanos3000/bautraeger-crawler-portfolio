@@ -87,8 +87,10 @@ Die Liste der zu crawlenden Bauträger steht in `bautraeger.csv` (Format:
 ## Hosting
 
 Das Projekt ist container-fertig (`Dockerfile`, `render.yaml`) für ein
-Deployment auf Render o.ä., inklusive persistentem Speicher für die
-SQLite-Datenbank. Schritt-für-Schritt-Anleitung: [DEPLOY.md](DEPLOY.md).
+kostenloses Deployment auf Render o.ä. Schritt-für-Schritt-Anleitung:
+[DEPLOY.md](DEPLOY.md). Auf dem kostenlosen Plan ist der Speicher nicht
+persistent (Daten setzen sich bei jedem Neustart zurück) - für echte,
+dauerhafte Daten braucht es einen bezahlten Plan mit Disk-Mount.
 
 ## Was ich gelernt habe
 
